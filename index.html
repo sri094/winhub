@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Drag Papers ❤️</title>
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Short+Stack&amp;family=Homemade+Apple&amp;display=swap'><link rel="stylesheet" href="./birthday.css">
+
+</head>
+<body>
+<div class="paper heart">
+
+</div>
+
+  
+<div class="paper image">
+  <p> goru 🐄</p>
+    <p>lol 😍 </p>
+    <p>paglii </p>
+   <img src="1.jpg" />
+</div>
+
+<div class="paper image">
+  <p>70^E n</p>
+  <img src="2.jpg" />
+</div>
+
+<div class="paper image">
+  <p>How can be </p>
+   <p> someone so cute ❤️ </p>
+
+  <img src="3.jpg" />
+</div>
+
+
+
+<div class="paper red">
+<p class="p1"> and My Favorite</p>
+<p class="p2">Person  😍</p>
+</div>
+
+<div class="paper">
+<p class="p1">happy birthday lol </p>
+  <p class="p1">27 nov,2024 <span style="color: red !important;">❤️</span></p>
+</div>
+<div class="paper">
+      <p class="p1">###this is for enter the name 🎂</p>
+    </div>
+
+<div class="paper">
+<p class="p1">Drag the papers to move! </p>
+</div>
+  <script  src="./birthday.js"></script>
+  <script>
+    class ConfettiGenerator {
+      constructor(x, y, numberOfParticles = 100) {
+        this.numberOfParticles = numberOfParticles;
+        this.confettiParticles = [];
+        this.createParticles(x, y);
+        this.animateParticles();
+      }
+
+      createParticles(x, y) {
+        for (let i = 0; i < this.numberOfParticles; i++) {
+          const confetti = document.createElement('div');
+          confetti.className = 'confetti';
+          confetti.style.left = `${x}px`;
+          confetti.style.top = `${y}px`; // Confetti starts at the touch point
+          confetti.style.backgroundColor = this.randomColor();
+          confetti.style.width = `${Math.random() * 8 + 4}px`;
+          confetti.style.height = `${Math.random() * 8 + 4}px`;
+
+          document.body.appendChild(confetti);
+          this.confettiParticles.push({
+            element: confetti,
+            velocityX: Math.random() * 4 - 2,
+            velocityY: Math.random() * 4 + 2,
+            rotation: Math.random() * 360,
+            rotationSpeed: Math.random() * 5 - 2.5
+          });
+        }
+      }
+
+      randomColor() {
+        const hue = Math.random() * 360;
+        return `hsl(${hue}, 100%, 50%)`; // Random bright color
+      }
+
+      animateParticles() {
+        this.confettiParticles.forEach((particle, index) => {
+          particle.velocityY += 0.01; // Simulate gravity
+          particle.element.style.transform = `rotate(${particle.rotation}deg)`;
+          particle.rotation += particle.rotationSpeed;
+
+          const currentX = parseFloat(particle.element.style.left);
+          const currentY = parseFloat(particle.element.style.top);
+
+          particle.element.style.left = `${currentX + particle.velocityX}px`;
+          particle.element.style.top = `${currentY + particle.velocityY}px`;
+
+          // Remove the confetti if it's out of bounds
+          if (currentY > window.innerHeight || currentX < 0 || currentX > window.innerWidth) {
+            particle.element.remove();
+            this.confettiParticles.splice(index, 1);
+          }
+        });
+
+        if (this.confettiParticles.length > 0) {
+          requestAnimationFrame(this.animateParticles.bind(this));
+        }
+      }
+    }
+
+    // To start confetti celebration on touch
+    window.addEventListener('touchstart', function(e) {
+      const touch = e.touches[0]; // Get the first touch point
+      new ConfettiGenerator(touch.clientX, touch.clientY, 150); // Generates confetti at the touch point
+    });
+
+  </script>
+
+</body>
+</html>
